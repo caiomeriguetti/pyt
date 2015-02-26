@@ -1,0 +1,43 @@
+#coding=utf-8
+import hashlib
+
+def md5(thestr):
+    
+    h = hashlib.new('md5')
+    h.update(thestr)
+
+    return str(h.hexdigest())
+
+buffer=""
+def write(s):
+    global buffer
+    buffer = buffer+s
+    
+def compile(file):
+    global buffer
+    buffer=""
+    
+    f = open(file)
+    content=f.read()
+    content = 'from pyengine import write\n\
+write("""'+content
+    content=content.replace('<w>', 'write("""')
+    content=content.replace('</w>', '""")')
+    content=content.replace('<py>', '""")')
+    content=content.replace('</py>', 'write("""')
+    content=content.replace('<%=', '"""+str(')
+    content=content.replace('%>', ')+"""')
+    content = content+'""")'
+    
+    f2 = open(file+".py",'w+')
+    f2.write(content)
+    f2.close()
+    f.close()
+    
+    exec(content)
+    
+    return buffer
+
+
+
+compile('test.ctp')
