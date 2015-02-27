@@ -61,9 +61,7 @@ for i in range(1,10):
 				</ul>
 				
 <py>
-
 element("teste2.ctp",context)
-	
 </py>
 				
 			</div>

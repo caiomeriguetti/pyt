@@ -16,7 +16,7 @@ def render(context):
     
     write("""
     
-    <div>
+    <elemento>
     	
     """)
     	
@@ -27,5 +27,5 @@ def render(context):
     write("""
     
     	
-    </div>""")
+    </elemento>""")
     return buffer

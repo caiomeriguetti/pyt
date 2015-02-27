@@ -79,9 +79,7 @@ def render(context):
     				</ul>
     				
     """)
-    
     element("teste2.ctp",context)
-    	
     write("""
     				
     			</div>
