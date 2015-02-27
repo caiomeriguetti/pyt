@@ -57,5 +57,3 @@ def render(context):
     f2.write(compiled_content)
     f2.close()
     f.close()
-    
-build()
