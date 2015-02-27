@@ -1,6 +1,11 @@
 #coding=utf-8
 
 buffer=""
+currentcontext=None
+def extend(name):
+    buffer=""
+    element(name,currentcontext)
+    pass
 
 def write(s):
     global buffer
@@ -13,16 +18,16 @@ def element(name,context):
     write(module.render(context))
     
 def render(context):
-    
+    currentcontext=context
     write("""
     
-    <html>
+    """)
+    extend('lay.ctp')
+    write("""
+    
+    
     	<body>
     
-    
-    	
-    
-    	
     """)
     
     import datetime
@@ -81,6 +86,7 @@ def render(context):
     """)
     element("teste2.ctp",context)
     write("""
+    
     				
     			</div>
     			
@@ -90,6 +96,5 @@ def render(context):
     	
     		
     	</body>
-    
-    </html>""")
+    """)
     return buffer

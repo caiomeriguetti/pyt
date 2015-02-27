@@ -27,6 +27,11 @@ def compile(file):
     compiled_content="""#coding=utf-8
 
 buffer=""
+currentcontext=None
+def extend(name):
+    buffer=""
+    element(name,currentcontext)
+    pass
 
 def write(s):
     global buffer
@@ -39,7 +44,7 @@ def element(name,context):
     write(module.render(context))
     
 def render(context):
-    
+    currentcontext=context
     write(\"\"\"
     
     """

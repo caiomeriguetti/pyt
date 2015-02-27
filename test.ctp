@@ -1,10 +1,9 @@
-<html>
+<py>
+extend('lay.ctp')
+</py>
+
 	<body>
 
-
-	
-
-	
 <py>
 
 import datetime
@@ -63,6 +62,7 @@ for i in range(1,10):
 <py>
 element("teste2.ctp",context)
 </py>
+
 				
 			</div>
 			
@@ -72,5 +72,3 @@ element("teste2.ctp",context)
 	
 		
 	</body>
-
-</html>
