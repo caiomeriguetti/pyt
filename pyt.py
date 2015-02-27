@@ -1,6 +1,7 @@
 #coding=utf-8
 import hashlib
 import json
+from bs4 import BeautifulSoup
 
 def md5(thestr):
     
@@ -8,9 +9,6 @@ def md5(thestr):
     h.update(thestr)
 
     return str(h.hexdigest())
-
-def write(s,buffer):
-    return buffer+s
 
 def build():
     f=open('config.json')
@@ -20,30 +18,40 @@ def build():
     
     for filename in configdata:
         compile(filename)
-    
-    
+        
+
 def compile(file):
     
     f = open(file)
     
     compiled_content="""#coding=utf-8
-     
-from pyt import write
-def render(context):
-    buffer=""
+
+buffer=""
+
+def write(s):
+    global buffer
+    buffer=buffer+s
+
+def element(name,context):
+    name = name.replace('.','_')
+    module = __import__(name)
     
-    buffer=write(\"\"\"
+    write(module.render(context))
+    
+def render(context):
+    
+    write(\"\"\"
     
     """
     content=f.read()
     content=content.replace('\n', '\n    ')
-    content=content.replace('<w>', 'buffer=write("""')
-    content=content.replace('</w>', '""",buffer)')
-    content=content.replace('<py>', '""",buffer)')
-    content=content.replace('</py>', 'buffer=write("""')
-    content=content.replace('<%= ', '"""+str(')
-    content=content.replace(' %>', ')+"""')
-    content = content+'""",buffer)'
+    content=content.replace('<w>', 'write("""')
+    content=content.replace('</w>', '""")')
+    content=content.replace('<py>', '""")')
+    content=content.replace('</py>', 'write("""')
+    content=content.replace('{{', '"""+str(')
+    content=content.replace('}}', ')+"""')
+    content = content+'""")'
     
     compiled_content = compiled_content + content
     

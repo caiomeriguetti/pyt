@@ -1,12 +1,12 @@
-<body>
+<div>
 	
 <py>
 	
 for user in context["users"]:
 
-	<w> <%= user["nome"] %></w>
+	<w> {{ user["nome"] }}</w>
 	
 </py>
 
 	
-</body>
+</div>

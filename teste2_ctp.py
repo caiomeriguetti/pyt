@@ -1,21 +1,31 @@
 #coding=utf-8
-     
-from pyt import write
+
+buffer=""
+
+def write(s):
+    global buffer
+    buffer=buffer+s
+
+def element(name,context):
+    name = name.replace('.','_')
+    module = __import__(name)
+    
+    write(module.render(context))
+    
 def render(context):
-    buffer=""
     
-    buffer=write("""
+    write("""
     
-    <body>
+    <div>
     	
-    """,buffer)
+    """)
     	
     for user in context["users"]:
     
-    	buffer=write(""" """+str(user["nome"])+"""""",buffer)
+    	write(""" """+str( user["nome"] )+"""""")
     	
-    buffer=write("""
+    write("""
     
     	
-    </body>""",buffer)
+    </div>""")
     return buffer

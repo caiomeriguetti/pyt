@@ -1,4 +1,8 @@
-import test_ctp,teste2_ctp
 import pyt
+
 pyt.build()
-print teste2_ctp.render({"users":[{"nome":'Calunga'}]})
+
+
+import test_ctp
+
+print test_ctp.render({'itens':[],'users':[{'nome':'Caio Meriguetti costa'},{'nome':'Lucas Meriguetti costa'}]})

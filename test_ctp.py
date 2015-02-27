@@ -1,77 +1,97 @@
 #coding=utf-8
-     
-from pyt import write
+
+buffer=""
+
+def write(s):
+    global buffer
+    buffer=buffer+s
+
+def element(name,context):
+    name = name.replace('.','_')
+    module = __import__(name)
+    
+    write(module.render(context))
+    
 def render(context):
-    buffer=""
     
-    buffer=write("""
+    write("""
     
-    <body>
+    <html>
+    	<body>
+    
+    
     	
     
     	
-    
-    """,buffer)
+    """)
     
     import datetime
     
     for a in [1,2,3]:
-    	buffer=write("""<a href='"""+str(datetime.datetime.now())+"""'></a>""",buffer)
+    	write("""<a href='"""+str( datetime.datetime.now() )+"""'></a>""")
     	
     	for b in [4,5,6]:
-    		buffer=write(""" 
-    			Teste """+str(b)+"""
+    		write(""" 
+    			Teste """+str( b )+"""
     			<br/>
     			<br/>
-    		""",buffer)
+    		""")
     	
-    buffer=write("""
-    
-    <ul>
-    
-    """,buffer)
+    write("""
+    	
+    	<ul>
+    	
+    """)
     for a in context["itens"]:
-    	buffer=write("""
-    		<a>"""+str(a['nome'])+"""</a>
-    	""",buffer)
-    buffer=write("""
-    
-    </ul>
-    
-    <div>
+    	write("""
+    		<a>"""+str( a['nome'] )+"""</a>
+    	""")
+    write("""
+    	
+    	</ul>
     	
     	<div>
     		
     		<div>
     			
-    			<ul>
-    				<li>
-    					<div>
-    """,buffer)
+    			<div>
+    				
+    				<ul>
+    					<li>
+    						<div>
+    """)
     
     for i in range(1,10):
-    	buffer=write("""
-    	<a href='"""+str(i)+"""' >"""+str(i)+"""</a>
-    	""",buffer)
+    	write("""
+    	<a href='"""+str( i )+"""' >"""+str( i )+"""</a>
+    	""")
     
-    buffer=write("""
+    write("""
+    						</div>
     						
     						
-    					</div>
+    					</li>
     					
     					
-    				</li>
+    					
+    					
+    					
+    				</ul>
     				
+    """)
+    
+    element("teste2.ctp",context)
+    	
+    write("""
     				
-    			</ul>
-    			
+    			</div>
     			
     		</div>
     		
     	</div>
     	
-    </div>
+    		
+    	</body>
     
-    	
-    </body>""",buffer)
+    </html>""")
     return buffer
