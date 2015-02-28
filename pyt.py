@@ -28,23 +28,54 @@ def compile(file):
 
 buffer=""
 currentcontext=None
+parenttemplate=False
+currentblock=None
+blocks={}
+
 def extend(name):
+    global parenttemplate
     buffer=""
-    element(name,currentcontext)
-    pass
+    parenttemplate=name
+    
+def fetch(name):
+    global blocks
+    
+    if blocks and name in blocks.keys(): 
+        write(blocks[name])
+
+def block(name):
+    global currentblock
+    currentblock=name
+
+def endblock():
+    global currentblock
+    currentblock=None
 
 def write(s):
-    global buffer
-    buffer=buffer+s
+    global currentblock
+    if currentblock:
+        global blocks
+        if not(currentblock in blocks.keys()):
+            blocks[currentblock]=""
+        blocks[currentblock]=blocks[currentblock]+s
+    else:
+        global buffer
+        buffer=buffer+s
 
-def element(name,context):
+def element(name,context,blocks=None):
     name = name.replace('.','_')
     module = __import__(name)
     
-    write(module.render(context))
+    write( module.render(context,blocks) )
     
-def render(context):
-    currentcontext=context
+def render(context,blocksdict=None):
+    global currentcontext
+    global blocks
+    
+    if blocksdict:
+        blocks=blocksdict
+     
+    currentcontext=context 
     write(\"\"\"
     
     """
@@ -62,6 +93,10 @@ def render(context):
     
     
     compiled_content=compiled_content+"""
+    
+    if parenttemplate:
+        element(parenttemplate,currentcontext,blocks)
+    
     return buffer"""
     
     newname=file.replace('.','_')

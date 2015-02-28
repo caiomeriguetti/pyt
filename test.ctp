@@ -1,5 +1,7 @@
 <py>
 extend('lay.ctp')
+
+block("conteudo")
 </py>
 
 	<body>
@@ -72,3 +74,6 @@ element("teste2.ctp",context)
 	
 		
 	</body>
+<py>
+endblock()
+</py>
