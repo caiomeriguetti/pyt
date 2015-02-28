@@ -33,96 +33,76 @@ class Template():
         self.parenttemplate=name
     
     def fetch(self,name):
-        global blocks
-        
-        if blocks and name in blocks.keys(): 
-            write(blocks[name])
+
+        if self.blocks and name in self.blocks.keys(): 
+            self.write(self.blocks[name])
+            
+    def block(self,name):
+        self.currentblock=name
     
-    def __init__(self,template_string):
-        self.string=template_string
+    def endblock(self,):
+        self.currentblock=None
+    
+    def write(self,s):
+
+        if self.currentblock:
+            
+            if not(self.currentblock in self.blocks.keys()):
+                self.blocks[self.currentblock]=""
+            
+            self.blocks[self.currentblock]=self.blocks[self.currentblock]+s
+            
+        else:
+            self.buffer=self.buffer+s
+    
+    def element(self,name,context=None,blocks=None):
         
-    def compile(self):
+        module = __import__(name,fromlist=[''])
         
+        if not(context): context = self.currentcontext
+        
+        self.write( module.render(context,blocks) )
 
 def compile(file):
     
     f = open(file)
     
     compiled_content="""#coding=utf-8
-
-buffer=""
-currentcontext=None
-parenttemplate=False
-currentblock=None
-blocks={}
-
-def extend(name):
-    global parenttemplate
-    buffer=""
-    parenttemplate=name
-    
-def fetch(name):
-    global blocks
-    
-    if blocks and name in blocks.keys(): 
-        write(blocks[name])
-
-def block(name):
-    global currentblock
-    currentblock=name
-
-def endblock():
-    global currentblock
-    currentblock=None
-
-def write(s):
-    global currentblock
-    if currentblock:
-        global blocks
-        if not(currentblock in blocks.keys()):
-            blocks[currentblock]=""
-        blocks[currentblock]=blocks[currentblock]+s
-    else:
-        global buffer
-        buffer=buffer+s
-
-def element(name,context,blocks=None):
-    name = name.replace('.','_')
-    module = __import__(name)
-    
-    write( module.render(context,blocks) )
-    
-def render(context,blocksdict=None):
-    global currentcontext
-    global blocks
-    
-    if blocksdict:
-        blocks=blocksdict
-     
-    currentcontext=context 
-    write(\"\"\"
-    
-    """
+from pyt import Template
+class CompiledTemplate(Template):
+    def render(self,context=None,blocksdict=None):
+        
+        if not(context): context={}
+        
+        if blocksdict:
+            self.blocks=blocksdict 
+         
+        self.currentcontext=context 
+        self.write(\"\"\"
+        """
     content=f.read()
     content=content.replace('\n', '\n    ')
-    content=content.replace('<w>', 'write("""')
+    content=content.replace('<w>', 'self.write("""')
     content=content.replace('</w>', '""")')
     content=content.replace('<py>', '""")')
-    content=content.replace('</py>', 'write("""')
+    content=content.replace('</py>', '    self.write("""')
     content=content.replace('{{', '"""+str(')
     content=content.replace('}}', ')+"""')
     content = content+'""")'
     
     compiled_content = compiled_content + content
     
-    
     compiled_content=compiled_content+"""
-    
-    if parenttemplate:
-        element(parenttemplate,currentcontext,blocks)
-    
-    return buffer"""
-    
+        
+        if self.parenttemplate:
+            self.element(self.parenttemplate,self.currentcontext,self.blocks)
+        
+        return self.buffer
+def render(context=None,blocksdict=None):
+    return CompiledTemplate().render(context,blocksdict)
+
+"""
+        
     newname=file.replace('.','_')
     
     f2 = open(newname+".py",'w+')

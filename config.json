@@ -1,5 +1,4 @@
 [
-	"lay.ctp",
-	"test.ctp",
-	"teste2.ctp"
+	"examples/layout.ctp",
+	"examples/myelement.ctp"
 ]
