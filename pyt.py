@@ -20,6 +20,30 @@ def build():
         compile(filename)
         
 
+class Template():
+    
+    buffer=""
+    currentcontext=None
+    parenttemplate=False
+    currentblock=None
+    blocks={}
+    
+    def extend(self,name):
+        self.buffer=""
+        self.parenttemplate=name
+    
+    def fetch(self,name):
+        global blocks
+        
+        if blocks and name in blocks.keys(): 
+            write(blocks[name])
+    
+    def __init__(self,template_string):
+        self.string=template_string
+        
+    def compile(self):
+        
+
 def compile(file):
     
     f = open(file)
