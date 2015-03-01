@@ -25,6 +25,6 @@ And the python code to render the template with a given context:
 
 import test_ctp
 
-test_ctp.render()
+test_ctp.render({"list":[{"name":"Item 1"},{"name":"Item 2"}]})
 
 ````
