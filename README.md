@@ -37,5 +37,5 @@ We also have the **w** tag( or write tag ) that is used to write html code when 
 
 You are free to use all the python power inside a **py** tag.
 
-Before you can import a template, you must compile it. To compile a file you just need to put declare the file inside the config.json and then run pyt.build().
+Before you can import a template, you must compile it. To compile a file you just need to declare it inside the config.json and then run pyt.build().
 The compilation process create the corresponding python module for each file inside the config.json. For example, if a file has the name template.ctp, after the compilation there will be a file template_ctp.py, that is the compiled python module that you can import.
