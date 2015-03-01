@@ -36,3 +36,6 @@ There is a limitation with the **py** tag: It must be at the begining of the lin
 We also have the **w** tag( or write tag ) that is used to write html code when you are inside a **py** tag. In the example, the **w** tag is used to render the **ul** childs.
 
 You are free to use all the python power inside a **py** tag.
+
+Before you can import a template, you must compile it. To compile a file you just need to put declare the file inside the config.json and then run pyt.build().
+The compilation process create the corresponding python module for each file inside the config.json. For example, if a file has the name template.ctp, after the compilation there will be a file template_ctp.py, that is the compiled python module that you can import.
