@@ -29,10 +29,10 @@ test_ctp.render({"list":[{"name":"Item 1"},{"name":"Item 2"}]})
 
 ````
 
-The <py> tag is where you put the python code. 
+The **py** tag is where you put the python code. 
 
-There is a limitation with the <py> tag: It must be at the begining of the line( without any spaces ) and the conde inside the tag must follow the identation rules of python
+There is a limitation with the **py** tag: It must be at the begining of the line( without any spaces ) and the conde inside the tag must follow the identation rules of python
 
-We also have the <w> tag( or write tag ) that is used to write html code when you are inside a <py> tag. In the example, the <w> tag is used to render the <ul> childs.
+We also have the **w** tag( or write tag ) that is used to write html code when you are inside a **py** tag. In the example, the **w** tag is used to render the **ul** childs.
 
-You are free to use all the python power inside a <py> tag.
+You are free to use all the python power inside a **py** tag.
